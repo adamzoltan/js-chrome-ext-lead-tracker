@@ -5,9 +5,21 @@ const deleteBtn = document.getElementById("delete-btn")
 const ulEl = document.getElementById("ul-el")
 let leadsFromLocalStorage = JSON.parse( localStorage.getItem("myLeads") )
 
+
+function render(leads) {
+    let listItems = ""
+    for (let i = 0; i < leads.length; i++) {
+        listItems += `
+            <li>
+                <a target='_blank' rel='noopener noreferrer' href=https://${leads[i]}> ${leads[i]} </a>
+            </li>`
+    }
+    ulEl.innerHTML = listItems
+}
+
 if (leadsFromLocalStorage) {
     myLeads = leadsFromLocalStorage
-    renderLeads()
+    render(myLeads)
 }
 
 inputBtn.addEventListener("click", function() {
@@ -16,7 +28,7 @@ inputBtn.addEventListener("click", function() {
     console.log("Save button clicked from addEventListener")
     inputEl.value = ""
     localStorage.setItem("myLeads", JSON.stringify(myLeads))
-    renderLeads()
+    render(myLeads)
 })
 
 deleteBtn.addEventListener("click", function() {
@@ -24,16 +36,5 @@ deleteBtn.addEventListener("click", function() {
     console.log(myLeads)
     console.log("DeleteAll button clicked from addEventListener")
     myLeads = []
-    renderLeads()
+    render(myLeads)
 })
-
-function renderLeads() {
-    let listItems = ""
-    for (let i = 0; i < myLeads.length; i++) {
-        listItems += `
-            <li>
-                <a target='_blank' rel='noopener noreferrer' href=https://${myLeads[i]}> ${myLeads[i]} </a>
-            </li>`
-    }
-    ulEl.innerHTML = listItems
-}
